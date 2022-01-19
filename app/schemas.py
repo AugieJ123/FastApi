@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, conint
 from typing import Optional
 
 class PostBase(BaseModel):
@@ -17,12 +17,19 @@ class UserOut(BaseModel):
 
     class Config:
         orm_mode = True
-        
+
 class Post(PostBase):
     id: int
     created_at: datetime
     owner_id: int
     owner: UserOut
+
+    class Config:
+        orm_mode = True
+
+class PostLikeOut(BaseModel):
+    Post: Post
+    likes: int
 
     class Config:
         orm_mode = True
@@ -42,3 +49,7 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: Optional[str] = None
+
+class Like(BaseModel):
+    post_id: int
+    dir: conint(le=1)

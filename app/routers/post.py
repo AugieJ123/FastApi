@@ -1,3 +1,4 @@
+from sqlalchemy import func
 import models, schemas, oauth2
 from typing import List
 from fastapi import  Response, status, HTTPException, Depends, APIRouter
@@ -6,12 +7,14 @@ from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/posts", tags=['Post'])
 
-@router.get("/", response_model=List[schemas.Post])
+@router.get("/", response_model=List[schemas.PostLikeOut])
 def get_posts(db: Session = Depends(get_db), limit: int = 100, skip: int = 0, search:str = ""):
-    
-    posts = db.query(models.Post).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
+
+    result  = db.query(models.Post, func.count(models.Vote.post_id).label("likes")).join(models.Vote, models.Post.id == models.Vote.post_id, 
+                        isouter = True).group_by(models.Post.id).filter(models.Post.title.contains(search)
+                        ).limit(limit).offset(skip).all()
  
-    return posts
+    return result
 
 # Get all post by a particular user
 @router.get("/user/", response_model=List[schemas.Post])
@@ -32,10 +35,11 @@ def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db), curren
 
     return new_post
 
-@router.get("/{id}", response_model=schemas.Post)
+@router.get("/{id}", response_model=schemas.PostLikeOut)
 def get_post(id: int, response: Response, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
 
-    post = db.query(models.Post).filter(models.Post.id == id).first()
+    post = db.query(models.Post, func.count(models.Vote.post_id).label("likes")).join(models.Vote, models.Post.id == models.Vote.post_id, 
+                        isouter = True).group_by(models.Post.id).filter(models.Post.id == id).first()
 
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")

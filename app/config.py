@@ -8,9 +8,12 @@ class Settings(BaseSettings):
     database_username: str
     secret_key: str
     algorithm: str
-    access_token_minutes: int = 0
+    access_token_expire_minutes: int
 
     class Config:
-        env_file = "./.env"
+        env_file = "../.env"
+
+        # for alembic migration
+        #env_file = ".env"
 
 settings = Settings()
