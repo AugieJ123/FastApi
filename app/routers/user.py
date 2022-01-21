@@ -1,5 +1,5 @@
 from fastapi import status, HTTPException, Depends, APIRouter
-from database import get_db
+# from database import get_db
 from sqlalchemy.orm import Session
 
 # For development...
@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 # For production...
 from .. import models, schemas, utils
+from ..database import get_db
 
 router = APIRouter(prefix="/users", tags=['User'])
 
