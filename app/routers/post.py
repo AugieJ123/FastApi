@@ -1,9 +1,11 @@
 from sqlalchemy import func
-import models, schemas, oauth2
+# import models, schemas, oauth2  # For development
 from typing import List
 from fastapi import  Response, status, HTTPException, Depends, APIRouter
 from database import get_db
 from sqlalchemy.orm import Session
+
+from .. import models, schemas, oauth2  # For production
 
 router = APIRouter(prefix="/posts", tags=['Post'])
 

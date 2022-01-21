@@ -11,9 +11,10 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int
 
     class Config:
-        env_file = "../.env"
+        # For development purpose
+        # env_file = "../.env"
 
-        # for alembic migration
-        #env_file = ".env"
+        # for alembic migration and prodution
+        env_file = ".env"
 
 settings = Settings()

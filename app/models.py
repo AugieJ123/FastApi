@@ -2,10 +2,10 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
-from database import Base
+# from database import Base # For development
 
-# for alembic migration
-# from .database import Base
+# for alembic migration and production
+from .database import Base
 
 class Post(Base):
     __tablename__ = 'posts'

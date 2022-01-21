@@ -2,7 +2,7 @@ from fastapi import FastAPI
 # import routers.post, routers.user, routers.auth, routers.likes  # import routers for development
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import post, user, auth, likes
+from .routers import post, user, auth, likes  # For production
 
 # import models
 
