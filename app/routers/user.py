@@ -1,7 +1,12 @@
-import models, schemas, utils
 from fastapi import status, HTTPException, Depends, APIRouter
 from database import get_db
 from sqlalchemy.orm import Session
+
+# For development...
+# import models, schemas, utils
+
+# For production...
+from .. import models, schemas, utils
 
 router = APIRouter(prefix="/users", tags=['User'])
 

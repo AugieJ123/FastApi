@@ -1,6 +1,11 @@
-from fastapi import  Response, status, HTTPException, Depends, APIRouter
-import schemas, database, models, oauth2
-from sqlalchemy.orm import Session 
+from fastapi import  status, HTTPException, Depends, APIRouter
+from sqlalchemy.orm import Session
+
+# For development...
+# import schemas, database, models, oauth2
+
+# For production...
+from .. import database, schemas, models, oauth2
 
 router = APIRouter(prefix="/like", tags=['Like'])
 
